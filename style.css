@@ -1,35 +1,36 @@
-#carousel {
+image-carousel {
   display: block;
   width: 60%;
   margin: auto;
   overflow: hidden;
   position: relative;
 }
-#carousel .carousel-slide {
+image-carousel .carousel-slide {
   display: flex;
   width: 100%;
   height: auto;
 }
-#carousel .carousel-slide img {
+image-carousel .carousel-slide img {
   padding: auto;
   width: 100%;
   height: auto;
 }
-#carousel-prev {
+.carousel-prev {
   position: absolute;
   top: 50%;
   z-index: 5;
   left: 5%;
   cursor: pointer;
 }
-#carousel-next {
+.carousel-next {
   position: absolute;
   top: 50%;
   z-index: 5;
   right: 5%;
   cursor: pointer;
 }
-#carousel button {
+
+image-carousel button {
   background: none;
   border: none;
 }

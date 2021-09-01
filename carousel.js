@@ -1,6 +1,6 @@
 const load = function () {
   const slide = document.querySelector(".carousel-slide");
-  const images = document.querySelectorAll(".carousel-slide img");
+  const images = document.querySelectorAll(".slide-image");
 
   const prev = document.querySelector("#carousel-prev");
   const next = document.querySelector("#carousel-next");

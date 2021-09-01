@@ -1,14 +1,9 @@
 const template = `
 <template id="carousel">
 <div class="carousel-slide">
-  <img src="4.png" id="lastClone" />
-  <img src="1.png" id="1" />
-  <img src="2.png" id="2" />
-  <img src="3.png" id="3" />
-  <img src="4.png" id="4" />
-  <img src="1.png" id="firstClone" />
+  
 </div>
-<button id="carousel-prev">
+<button class="carousel-prev">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -23,7 +18,7 @@ const template = `
     ></path>
   </svg>
 </button>
-<button id="carousel-next">
+<button class="carousel-next">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -41,14 +36,109 @@ const template = `
 </template>`;
 
 class ImageCarousel extends HTMLElement {
+
+    static get observedAttributes() {
+      return ['slideno'];
+    }
+
+    get slideno() {
+      return this.getAttribute("slideno");
+    } 
+
+    set slideno(val) {
+      this.setAttribute('slideno', val);
+      
+    }
+
     constructor(){
         super();
-    }
-    connectedCallback() {
+        this.imagesize = 0;
+        this.length = 0;
+
+        this.attachShadow({mode: 'open'});
+
+        var style = document.createElement('style');
+        style.textContent = `
+          .carousel-slide {
+            display: flex;
+            width: 100%;
+            height: auto;
+          }
+          .carousel-slide img {
+            padding: auto;
+            width: 100%;
+            height: auto;
+          }
+          .carousel-prev {
+            position: absolute;
+            top: 50%;
+            z-index: 5;
+            left: 5%;
+            cursor: pointer;
+          }
+          .carousel-next {
+            position: absolute;
+            top: 50%;
+            z-index: 5;
+            right: 5%;
+            cursor: pointer;
+          }
+          
+          button {
+            background: none;
+            border: none;
+          }
+        `;
+
         var parser = new DOMParser();
         var imageCarousel = parser.parseFromString(template, 'text/html');
+
         var content = imageCarousel.getElementById('carousel').content;
-        this.appendChild(content)
+
+        this.shadowRoot.appendChild(style);
+        this.shadowRoot.appendChild(content);
+
+    }
+
+    connectedCallback() {
+        var slide = this.shadowRoot.querySelector(".carousel-slide");
+        var images = this.getElementsByClassName("slide-image");
+
+        this.imagesize = this.clientWidth;
+        this.length = images.length;
+        
+
+        while (images.length > 0) {
+          images[0].style.display = "block";
+          slide.appendChild(images[0]);
+        }
+
+        slide.style.transform = `translateX(${-(this.clientWidth) * this.slideno}px)`;
+        slide.style.transition = `transform 0.3s ease-in-out`;
+
+        this.shadowRoot.querySelector(".carousel-prev").addEventListener("click" , ()=>{
+          if (this.slideno-1 < 0){
+            this.slideno = this.length-1;
+          } else {
+            this.slideno--;
+          }
+          console.log(length);
+          
+        });
+
+        this.shadowRoot.querySelector(".carousel-next").addEventListener("click", ()=>{
+          
+          this.slideno++;
+          if (this.slideno >= this.length -1) {
+            this.slideno = 0;
+          }
+        })
+
+    }
+
+    attributeChangedCallback(name, oldValue, newValue){
+      var slide = this.shadowRoot.querySelector(".carousel-slide");
+      slide.style.transform = `translateX(${-(this.imagesize-10) * this.slideno}px)`;
     }
 }
 customElements.define('image-carousel', ImageCarousel);
