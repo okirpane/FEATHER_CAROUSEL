@@ -11,7 +11,6 @@ const load = function () {
   let size = images[0].clientWidth;
 
   let resize = function () {
-    console.log("this happened");
     size = images[0].clientWidth;
     slide.style.transform = `translateX(${-size * counter}px)`;
   };
