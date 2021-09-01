@@ -7,8 +7,27 @@ const load = function () {
 
   let counter = 1;
   let trans;
+  let timeout;
+  let size = images[0].clientWidth;
 
-  const size = images[0].clientWidth;
+  let resize = function () {
+    console.log("this happened");
+    size = images[0].clientWidth;
+    slide.style.transform = `translateX(${-size * counter}px)`;
+  };
+  window.addEventListener(
+    "resize",
+    function (event) {
+      if (timeout) {
+        window.cancelAnimationFrame(timeout);
+      }
+      timeout = window.requestAnimationFrame(function () {
+        // Run our functions
+        resize();
+      });
+    },
+    false
+  );
 
   slide.style.transform = `translateX(${-size * counter}px)`;
 
