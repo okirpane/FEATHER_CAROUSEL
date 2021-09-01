@@ -9,13 +9,11 @@ const load = function () {
   let trans;
 
   const size = images[0].clientWidth;
-  console.log(size);
 
   slide.style.transform = `translateX(${-size * counter}px)`;
 
   next.addEventListener("click", function () {
     if (counter >= images.length - 1) return;
-    console.log("next");
     slide.style.transition = `transform 0.3s ease-in-out`;
     counter++;
     trans = -size * counter;
@@ -23,7 +21,6 @@ const load = function () {
   });
   prev.addEventListener("click", function () {
     if (counter <= 0) return;
-    console.log("prev");
     slide.style.transition = `transform 0.2s ease-in-out`;
     counter--;
     slide.style.transform = `translateX(${-size * counter}px)`;
